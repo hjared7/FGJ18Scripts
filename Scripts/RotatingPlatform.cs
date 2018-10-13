@@ -13,7 +13,7 @@ public class RotatingPlatform : Entity_Script {
 	
 	// Update is called once per frame
 	void Update () {
-        if (possessed)
+        if (gameObject.tag == "Possesses")
         {
             countDown();
             interact();
