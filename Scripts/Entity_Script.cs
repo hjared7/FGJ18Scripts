@@ -43,7 +43,7 @@ public class Entity_Script : MonoBehaviour {
         }
     }
 
-    public void onMouseDown()
+    public void OnMouseDown()
     {
         GameObject pE = GameObject.FindGameObjectWithTag("Possessed");
         float distance = Vector2.Distance(gameObject.transform.position, pE.transform.position);
