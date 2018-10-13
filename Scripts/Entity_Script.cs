@@ -9,7 +9,7 @@ public class Entity_Script : MonoBehaviour {
     public float range;
     public bool possessed;
     private bool possessable;
-    private Light possessionGlow;
+    public Light possessionGlow;
 
 
     // On object creation, set possessable = true;

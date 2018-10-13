@@ -25,40 +25,42 @@ public class Bird : Entity_Script {
 
     void interact()
     {
+        float Dtime = Time.deltaTime;
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
+            transform.position += Vector3.left * speed * Dtime;
             if (holding)
             {
-                player.transform.position += Vector3.left * speed * Time.deltaTime;
+                player.transform.position += Vector3.left * speed * Dtime;
             }
         }
-        else if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
-            transform.position += Vector3.right * speed * Time.deltaTime;
+            transform.position += Vector3.right * speed * Dtime;
             if (holding)
             {
-                player.transform.position += Vector3.right * speed * Time.deltaTime;
+                player.transform.position += Vector3.right * speed * Dtime;
             }
         }
-        else if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
-            transform.position += Vector3.up * speed * Time.deltaTime;
+            transform.position += Vector3.up * speed * Dtime;
             if (holding)
             {
-                player.transform.position += Vector3.up * speed * Time.deltaTime;
+                player.transform.position += Vector3.up * speed * Dtime;
             }
         }
-        else if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
-            transform.position += Vector3.down * speed * Time.deltaTime;
+            transform.position += Vector3.down * speed * Dtime;
             if (holding)
             {
-                player.transform.position += Vector3.down * speed * Time.deltaTime;
+                player.transform.position += Vector3.down * speed * Dtime;
             }
         }
 
         float distanceToPlayer = Vector2.Distance(player.transform.position, gameObject.transform.position);
+        Debug.Log(distanceToPlayer);
         if (distanceToPlayer < pickUpRange)
         {
             holding = true;
