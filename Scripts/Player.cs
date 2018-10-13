@@ -12,19 +12,18 @@ public class Player : MonoBehaviour {
         possessingSomethingElse = false;
         possessionGlow = GetComponent<Light>();
         possessionGlow.enabled = true;
-        gameObject.tag = ("Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        GameObject pE = GameObject.FindGameObjectWithTag("Possessed");
-        if (pE)
+        ;
+        if (GameObject.FindGameObjectWithTag("Possessed") != null)
         {
-            possessingSomethingElse = false;
+            possessingSomethingElse = true;
         }
         else
         {
-            possessingSomethingElse = true;
+            possessingSomethingElse = false;
         }
         possessionGlow.enabled = !possessingSomethingElse;
 	}
