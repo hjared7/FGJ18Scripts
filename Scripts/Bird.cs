@@ -16,7 +16,7 @@ public class Bird : Entity_Script {
     // Update is called once per frame
     void Update()
     {
-        if (possessed)
+        if (gameObject.tag == "Possessed")
         {
             countDown();
             interact();

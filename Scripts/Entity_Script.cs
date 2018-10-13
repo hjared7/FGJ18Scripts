@@ -7,19 +7,13 @@ public class Entity_Script : MonoBehaviour {
     public GameObject player;
     public float timer;
     public float range;
-    public bool possessed;
     private bool possessable;
     public Light possessionGlow;
 
 
     // On object creation, set possessable = true;
-    void Start () {
-        possessionGlow = GetComponent<Light>();
-        possessionGlow.enabled = false;
-        possessed = false;
+    void Start() {
         possessable = true;
-        player = GameObject.FindGameObjectWithTag("Player");
-
     }
 
     // Begins the timer, needs to be called on update while possessed
@@ -28,7 +22,7 @@ public class Entity_Script : MonoBehaviour {
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            timer = 0;            
+            timer = 0;
             endPossession();
         }
     }
@@ -45,8 +39,13 @@ public class Entity_Script : MonoBehaviour {
         {
             distancePE = 10000000000;
         }
-        if (distancePlayer < range) // || distancePE < range
+        if (distancePlayer < range || distancePE < range)
         {
+            if (pE != null)
+            {
+                pE.gameObject.tag = "Untagged";
+                pE.GetComponent<Light>().enabled = false;
+            }
             beginPossession();
         }
     }
@@ -54,7 +53,6 @@ public class Entity_Script : MonoBehaviour {
     private void beginPossession()
     {
         possessionGlow.enabled = true;
-        possessed = true;
         possessable = false;
         gameObject.tag = ("Possessed");
     }
@@ -62,6 +60,6 @@ public class Entity_Script : MonoBehaviour {
     private void endPossession()
     {
         gameObject.tag = ("Untagged");
-        possessed = false;
+        possessionGlow.enabled = false;
     }
 }
