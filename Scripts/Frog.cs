@@ -42,13 +42,14 @@ public class Frog : Entity_Script {
                 velocity = Vector2.up * jumpSpeed;
                 rb.velocity = velocity;
             }
-            Debug.Log(IsGrounded());
         }
     }
 
     // Check if the frog is on the ground.
     private bool IsGrounded()
     {
-        return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+        return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground")) ||
+            Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Platform"));
+
     }
 }

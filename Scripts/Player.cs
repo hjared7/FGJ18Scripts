@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
             possessingSomethingElse = false;
         }
         possessionGlow.enabled = !possessingSomethingElse;
-        if (goalDistance < Vector2.Distance(goal.transform.position, gameObject.transform.position))
+        if (goalDistance > Vector2.Distance(goal.transform.position, gameObject.transform.position))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
