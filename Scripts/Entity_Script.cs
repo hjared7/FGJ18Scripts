@@ -22,11 +22,6 @@ public class Entity_Script : MonoBehaviour {
 
     }
 
-    private void Update()
-    {
-        countDown();
-    }
-
     // Begins the timer, needs to be called on update while possessed
     public void countDown()
     {
@@ -40,16 +35,16 @@ public class Entity_Script : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        //GameObject pE = GameObject.FindGameObjectWithTag("Possessed");
+        GameObject pE = GameObject.FindGameObjectWithTag("Possessed");
         float distancePlayer = Vector2.Distance(player.transform.position, gameObject.transform.position);
-        //float distancePE;
-        //if (pE != null) {
-        //    distancePE = Vector2.Distance(gameObject.transform.position, pE.transform.position);
-        //}
-        //else
-        //{
-        //    distancePE = 10000000000;
-        //}
+        float distancePE;
+        if (pE != null) {
+            distancePE = Vector2.Distance(gameObject.transform.position, pE.transform.position);
+        }
+        else
+        {
+            distancePE = 10000000000;
+        }
         if (distancePlayer < range) // || distancePE < range
         {
             beginPossession();
