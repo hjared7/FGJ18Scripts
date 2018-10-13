@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity_Script {
+public class Player : MonoBehaviour {
+
+    private Light possessionGlow;
+    public bool possessingSomethingElse;
 
 	// Use this for initialization
 	void Start () {
-        timer = 1.0f;
+        possessingSomethingElse = false;
+        possessionGlow = GetComponent<Light>();
+        possessionGlow.enabled = true;
+        gameObject.tag = ("Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        GameObject pE = GameObject.FindGameObjectWithTag("Possessed");
+        if (pE)
+        {
+            possessingSomethingElse = false;
+        }
+        else
+        {
+            possessingSomethingElse = true;
+        }
+        possessionGlow.enabled = !possessingSomethingElse;
 	}
-
-    /* Overrides Entity's countDown method so that the player
-    can always be possessable */
-    void countDown()
-    {
-        // Intentionally does nothing
-    }
 }

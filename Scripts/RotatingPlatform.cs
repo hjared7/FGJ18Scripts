@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class RotatingPlatform : Entity_Script {
 
-    [SerializeField] float rotationSpeed;
+    public float rotationSpeed;
 
 	// Use this for initialization
 	void Start () {
-		timer = 5.0f;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        // Intentionally blank;		
+        if (possessed)
+        {
+            countDown();
+            interact();
+        }
 	}
 
-    new void interact()
+    void interact()
     {
         if (Input.GetKey(KeyCode.A))
         {

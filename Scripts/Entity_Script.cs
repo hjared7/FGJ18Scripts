@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Entity_Script : MonoBehaviour {
 
+    public GameObject player = GameObject.FindGameObjectWithTag("Player");
     public float timer;
     public float range;
-    private bool possessed;
+    public bool possessed;
     private bool possessable;
     private Light possessionGlow;
 
@@ -18,27 +19,13 @@ public class Entity_Script : MonoBehaviour {
         possessable = true;
 	}
 
-    // What does this entity do every frame?
-    void Update () {
-        if (possessed == true)
-        {
-            countDown();
-        }
-        else
-        {
-            // durr
-        }
-	}
-
     // Begins the timer, needs to be called on update while possessed
-    void countDown()
+    public void countDown()
     {
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            timer = 0;
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            //player.returnControl
+            timer = 0;            
             endPossession();
         }
     }
@@ -53,15 +40,17 @@ public class Entity_Script : MonoBehaviour {
         }
     }
 
-    public void beginPossession()
+    private void beginPossession()
     {
         possessionGlow.enabled = true;
         possessed = true;
+        possessable = false;
         gameObject.tag = ("Possessed");
     }
 
-    public void endPossession()
+    private void endPossession()
     {
         gameObject.tag = ("Untagged");
+        possessed = false;
     }
 }
