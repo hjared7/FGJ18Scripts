@@ -6,15 +6,17 @@ public class Entity_Script : MonoBehaviour {
 
     public Player player;
     public LineRenderer lineRend;
+    public AudioSource soundPlayer;
+
     public float timer;
     public float range;
 
     public int vertexCount = 40;
     public float lineWidth = 0.1f;
-    
+
+
 
     void Start() {
-        // do something on start
     }
 
     // Begins the timer, needs to be called on update while possessed
@@ -53,6 +55,9 @@ public class Entity_Script : MonoBehaviour {
 
     private void beginPossession()
     {
+        soundPlayer.Play();
+        AudioSource playerSound = player.GetComponent<AudioSource>();
+        playerSound.Play();
         gameObject.tag = ("Possessed");
         lineRend.enabled = true;
     }

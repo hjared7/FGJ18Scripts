@@ -11,23 +11,37 @@ public class Frog : Entity_Script {
     private float counter;
     public float ambientInterval;
     private int direction = 1;
+    private bool facingRight;
+
+    public void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody2D>();
+        facingRight = true;
+        Flip();
     }
+
 
     // Update is called once per frame
     void Update() {
+        
         if (gameObject.tag == "Possessed")
         {
             countDown();
             drawRange();
             interact();
+            checkFlip();
         }
         else
         {
-            transform.position += Vector3.left * speed/3 * Time.deltaTime * direction;
+            transform.position += Vector3.left * speed / 3 * Time.deltaTime * direction;
             counter += Time.deltaTime;
             if (counter >= ambientInterval)
             {
@@ -39,6 +53,7 @@ public class Frog : Entity_Script {
                 }
                 counter = 0;
                 direction = direction * -1;
+                Flip();
             }
         }
     }
@@ -71,5 +86,14 @@ public class Frog : Entity_Script {
         return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground")) ||
             Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Platform"));
 
+    }
+
+    private void checkFlip()
+    {
+        float hMove = Input.GetAxis("Horizontal");
+        if (hMove > .1 && !facingRight || hMove < -.1 && facingRight)
+        {
+            Flip();
+        }
     }
 }

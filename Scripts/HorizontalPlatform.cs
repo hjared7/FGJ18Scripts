@@ -8,12 +8,22 @@ public class HorizontalPlatform : Entity_Script {
     public float speed;
     public Transform platformCheck;
     public float ambientInterval;
-    private float counter;
+    private float counterAmbient;
     private int direction = 1;
+    private bool facingRight;
 
     // Use this for initialization
     void Start() {
-
+        facingRight = true;
+        Flip();
+        
+    }
+    public void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     // Update is called once per frame
@@ -22,19 +32,31 @@ public class HorizontalPlatform : Entity_Script {
         {
             countDown();
             drawRange();
+            checkFlip();
             interact();
         }
         else
         {
-            counter += Time.deltaTime;
-            transform.position += Vector3.left * speed * Time.deltaTime * direction;
-            if (counter >= ambientInterval / 2)
+            counterAmbient += Time.deltaTime;
+            if (counterAmbient >= ambientInterval)
             {
                 direction = direction * -1;
-                counter = 0;
+                counterAmbient = 0;
+                Flip();
+            }
+            transform.position += Vector3.left * speed * Time.deltaTime * direction;
+            if (Physics2D.Linecast(player.transform.position, platformCheck.position, 1 << LayerMask.NameToLayer("Platform")))
+            {
+                player.transform.position += Vector3.left * speed * Time.deltaTime * direction;
+            }
+            foreach (Frog frog in frogList)
+            {
+                if (Physics2D.Linecast(frog.transform.position, frog.groundCheck.position, 1 << LayerMask.NameToLayer("Platform")))
+                {
+                    frog.transform.position += Vector3.left * speed * Time.deltaTime * direction;
+                }
             }
         }
-        
     }
 
     void interact()
@@ -45,6 +67,7 @@ public class HorizontalPlatform : Entity_Script {
             if (Input.GetKey(KeyCode.A))
             {
                 transform.position += Vector3.left * speed * Dtime;
+                
                 if (Physics2D.Linecast(player.transform.position, platformCheck.position, 1 << LayerMask.NameToLayer("Platform")))
                 {
                     player.transform.position += Vector3.left * speed * Dtime;
@@ -56,6 +79,7 @@ public class HorizontalPlatform : Entity_Script {
                         frog.transform.position += Vector3.left * speed * Dtime;
                     }
                 }
+                
             }
             if (Input.GetKey(KeyCode.D))
             {
@@ -73,6 +97,15 @@ public class HorizontalPlatform : Entity_Script {
                 }
                 
             }
+        }
+    }
+
+    private void checkFlip()
+    {
+        float hMove = Input.GetAxis("Horizontal");
+        if (hMove > .1 && !facingRight || hMove < -.1 && facingRight)
+        {
+            Flip();
         }
     }
 }

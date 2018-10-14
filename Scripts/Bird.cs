@@ -5,19 +5,32 @@ using UnityEngine;
 public class Bird : Entity_Script {
 
     public float speed;
+    private bool facingRight;
+
 
     // Use this for initialization
     void Start() {
+        facingRight = true;
+    }
+
+    public void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (gameObject.tag == "Possessed")
         {
             countDown();
             drawRange();
             interact();
+            checkFlip();
         }
     }
 
@@ -42,6 +55,15 @@ public class Bird : Entity_Script {
             {
                 transform.position += Vector3.down * speed * Dtime;
             }
+        }
+    }
+
+    private void checkFlip()
+    {
+        float hMove = Input.GetAxis("Horizontal");
+        if (hMove > .1 && !facingRight || hMove < -.1 && facingRight)
+        {
+            Flip();
         }
     }
 }
