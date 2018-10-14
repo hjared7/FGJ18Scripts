@@ -8,6 +8,9 @@ public class Frog : Entity_Script {
     public Transform groundCheck;
     public float jumpSpeed;
     public float speed;
+    private float counter;
+    public float ambientInterval;
+    private int direction = 1;
 
     // Use this for initialization
     void Start () {
@@ -19,7 +22,24 @@ public class Frog : Entity_Script {
         if (gameObject.tag == "Possessed")
         {
             countDown();
+            drawRange();
             interact();
+        }
+        else
+        {
+            transform.position += Vector3.left * speed/3 * Time.deltaTime * direction;
+            counter += Time.deltaTime;
+            if (counter >= ambientInterval)
+            {
+                if (IsGrounded())
+                {
+                    Vector2 velocity = rb.velocity;
+                    velocity = Vector2.up * jumpSpeed;
+                    rb.velocity = velocity;
+                }
+                counter = 0;
+                direction = direction * -1;
+            }
         }
     }
 

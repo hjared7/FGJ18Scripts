@@ -5,6 +5,9 @@ using UnityEngine;
 public class VerticalPlatform : Entity_Script {
 
     public float speed;
+    public float ambientInterval;
+    private float counter;
+    private int direction = 1;
 
     // Use this for initialization
     void Start()
@@ -18,7 +21,18 @@ public class VerticalPlatform : Entity_Script {
         if (gameObject.tag == "Possessed")
         {
             countDown();
+            drawRange();
             interact();
+        }
+        else
+        {
+            counter += Time.deltaTime;
+            transform.position += Vector3.up * speed * Time.deltaTime * direction;
+            if (counter >= ambientInterval / 2)
+            {
+                direction = direction * -1;
+                counter = 0;
+            }
         }
     }
 
@@ -35,6 +49,11 @@ public class VerticalPlatform : Entity_Script {
             {
                 transform.position += Vector3.down * speed * Dtime;
             }
+        }
+
+        else
+        {
+
         }
     }
 }

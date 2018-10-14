@@ -5,12 +5,9 @@ using UnityEngine;
 public class Bird : Entity_Script {
 
     public float speed;
-    public float pickUpRange;
-    private bool holding;
 
     // Use this for initialization
     void Start() {
-        holding = false;
     }
 
     // Update is called once per frame
@@ -19,6 +16,7 @@ public class Bird : Entity_Script {
         if (gameObject.tag == "Possessed")
         {
             countDown();
+            drawRange();
             interact();
         }
     }

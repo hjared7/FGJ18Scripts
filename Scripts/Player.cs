@@ -4,32 +4,40 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
-    public GameObject goal;
     public float goalDistance;
-    private Light possessionGlow;
-    public bool possessingSomethingElse;
+    public GameObject goal;
+
+    public LineRenderer lineRend;
+    public float lineWidth = .1f;
+    public int vertexCount = 40;
+    public float range = 2.0f;
 
 	// Use this for initialization
 	void Start () {
-        possessingSomethingElse = false;
-        possessionGlow = GetComponent<Light>();
-        possessionGlow.enabled = true;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (GameObject.FindGameObjectWithTag("Possessed") != null)
-        {
-            possessingSomethingElse = true;
-        }
-        else
-        {
-            possessingSomethingElse = false;
-        }
-        possessionGlow.enabled = !possessingSomethingElse;
+        drawRange();
         if (goalDistance > Vector2.Distance(goal.transform.position, gameObject.transform.position))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 	}
+
+    private void drawRange()
+    {
+        lineRend.widthMultiplier = lineWidth;
+        float deltaTheta = (2f * Mathf.PI) / vertexCount;
+        float theta = 0.0f;
+        lineRend.positionCount = vertexCount;
+        for (int i = 0; i < lineRend.positionCount; i++)
+        {
+            Vector2 pos = new Vector2(range * Mathf.Cos(theta) + transform.position.x,
+                range * Mathf.Sin(theta) + transform.position.y);
+            lineRend.SetPosition(i, pos);
+            theta += deltaTheta;
+        }
+    }
 }

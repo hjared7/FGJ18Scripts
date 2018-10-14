@@ -16,6 +16,7 @@ public class RotatingPlatform : Entity_Script {
         if (gameObject.tag == "Possessed")
         {
             countDown();
+            drawRange();
             interact();
         }
 	}

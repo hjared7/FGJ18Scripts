@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Entity_Script : MonoBehaviour {
 
-    public GameObject player;
+    public Player player;
+    public LineRenderer lineRend;
     public float timer;
     public float range;
-    private bool possessable;
-    public Light possessionGlow;
 
+    public int vertexCount = 40;
+    public float lineWidth = 0.1f;
+    
 
-    // On object creation, set possessable = true;
     void Start() {
-        possessable = true;
+        // do something on start
     }
 
     // Begins the timer, needs to be called on update while possessed
@@ -39,12 +40,12 @@ public class Entity_Script : MonoBehaviour {
         {
             distancePE = 10000000000;
         }
-        if (distancePlayer < range || distancePE < range)
+        if (distancePlayer < player.range || distancePE < range)
         {
             if (pE != null)
             {
                 pE.gameObject.tag = "Untagged";
-                pE.GetComponent<Light>().enabled = false;
+                pE.GetComponent<LineRenderer>().enabled = false;
             }
             beginPossession();
         }
@@ -52,14 +53,28 @@ public class Entity_Script : MonoBehaviour {
 
     private void beginPossession()
     {
-        possessionGlow.enabled = true;
-        possessable = false;
         gameObject.tag = ("Possessed");
+        lineRend.enabled = true;
     }
 
     private void endPossession()
     {
         gameObject.tag = ("Untagged");
-        possessionGlow.enabled = false;
+        lineRend.enabled = false;
+    }
+
+    public void drawRange()
+    {
+        lineRend.widthMultiplier = lineWidth;
+        float deltaTheta = (2f * Mathf.PI) / vertexCount;
+        float theta = 0.0f;
+        lineRend.positionCount = vertexCount;
+        for (int i = 0; i < lineRend.positionCount; i++)
+        {
+            Vector2 pos = new Vector2(range * Mathf.Cos(theta) + transform.position.x,
+                range * Mathf.Sin(theta) + transform.position.y);
+            lineRend.SetPosition(i, pos);
+            theta += deltaTheta;
+        }
     }
 }

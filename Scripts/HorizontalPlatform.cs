@@ -7,19 +7,34 @@ public class HorizontalPlatform : Entity_Script {
     public Frog[] frogList;
     public float speed;
     public Transform platformCheck;
+    public float ambientInterval;
+    private float counter;
+    private int direction = 1;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start() {
+
+    }
+
+    // Update is called once per frame
+    void Update() {
         if (gameObject.tag == "Possessed")
         {
             countDown();
+            drawRange();
             interact();
         }
+        else
+        {
+            counter += Time.deltaTime;
+            transform.position += Vector3.left * speed * Time.deltaTime * direction;
+            if (counter >= ambientInterval / 2)
+            {
+                direction = direction * -1;
+                counter = 0;
+            }
+        }
+        
     }
 
     void interact()
